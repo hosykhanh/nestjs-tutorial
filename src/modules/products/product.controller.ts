@@ -1,22 +1,23 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ResponseData } from 'src/global/globalClass';
 import { HttpMessage, HttpStatus } from 'src/global/globalEnum';
+import { Product } from 'src/models/product.model';
 
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  getProduct(): ResponseData<string> {
+  getProduct(): ResponseData<Product[]> {
     try {
-      return new ResponseData<string>(
+      return new ResponseData<Product[]>(
         this.productService.getProduct(),
         HttpStatus.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<string>(
+      return new ResponseData<Product[]>(
         null,
         HttpStatus.ERROR,
         HttpMessage.ERROR,
@@ -42,15 +43,15 @@ export class ProductController {
   }
 
   @Get('/:id')
-  detailProduct(): ResponseData<string> {
+  detailProduct(@Param('id') id: number): ResponseData<Product> {
     try {
-      return new ResponseData<string>(
-        this.productService.deleteProduct(),
+      return new ResponseData<Product>(
+        this.productService.detailProduct(id),
         HttpStatus.SUCCESS,
         HttpMessage.SUCCESS,
       );
     } catch (error) {
-      return new ResponseData<string>(
+      return new ResponseData<Product>(
         null,
         HttpStatus.ERROR,
         HttpMessage.ERROR,

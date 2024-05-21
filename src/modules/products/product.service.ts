@@ -1,17 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { Product } from 'src/models/product.model';
 
 @Injectable()
 export class ProductService {
-  getProduct(): string {
-    return 'GET LIST PRODUCTS';
+  private products: Product[] = [
+    { id: 1, categoryId: 2, price: 80000, productName: 'Keyboard' },
+    { id: 2, categoryId: 3, price: 90000, productName: 'Board' },
+  ];
+
+  getProduct(): Product[] {
+    return this.products;
   }
 
   createProduct(): string {
     return 'POST PRODUCT';
   }
 
-  detailProduct(): string {
-    return 'DETAIL PRODUCT';
+  detailProduct(id: number): Product {
+    return this.products.find((item) => item.id === Number(id));
   }
 
   updateProduct(): string {
