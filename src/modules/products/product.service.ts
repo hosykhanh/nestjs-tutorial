@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ProductDto } from 'src/dto/product.dto';
 import { Product } from 'src/models/product.model';
 
 @Injectable()
@@ -12,8 +13,13 @@ export class ProductService {
     return this.products;
   }
 
-  createProduct(): string {
-    return 'POST PRODUCT';
+  createProduct(productDto: ProductDto): Product {
+    const product: Product = {
+      id: Math.random(),
+      ...productDto,
+    };
+    this.products.push(product);
+    return product;
   }
 
   detailProduct(id: number): Product {
